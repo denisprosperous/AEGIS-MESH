@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Group
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -105,8 +106,6 @@ fun ChannelListScreen(nav: NavController) {
         )
     }
 }
-
-private val Icons.Default.People get() = androidx.compose.material.icons.Icons.Filled.Group
 
 @Composable
 fun ChannelChatScreen(nav: NavController, channelId: String) {
