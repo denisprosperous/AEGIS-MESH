@@ -22,6 +22,12 @@ jobs:
         with:
           packages: 'ndk;27.0.12077973'
 
+      - name: Install Gradle
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip
+          unzip -q gradle-8.7-bin.zip -d /opt
+          echo "/opt/gradle-8.7/bin" >> $GITHUB_PATH
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -64,7 +70,7 @@ jobs:
 
       - name: Build debug APK
         working-directory: aegis-mesh/android
-        run: ./gradlew assembleDebug --no-daemon
+        run: gradle assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
