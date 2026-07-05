@@ -41,10 +41,16 @@ jobs:
         env:
           ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/27.0.12077973
         run: |
-          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android26-clang"
-          export CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android26-clang"
-          export CC_aarch64_linux_android="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android26-clang"
-          export CC_x86_64_linux_android="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android26-clang"
+          NDK_TOOLCHAIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="$NDK_TOOLCHAIN/aarch64-linux-android26-clang"
+          export CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER="$NDK_TOOLCHAIN/x86_64-linux-android26-clang"
+          export CC_aarch64_linux_android="$NDK_TOOLCHAIN/aarch64-linux-android26-clang"
+          export CC_x86_64_linux_android="$NDK_TOOLCHAIN/x86_64-linux-android26-clang"
+          export CXX_aarch64_linux_android="$NDK_TOOLCHAIN/aarch64-linux-android26-clang++"
+          export CXX_x86_64_linux_android="$NDK_TOOLCHAIN/x86_64-linux-android26-clang++"
+          export AR_aarch64_linux_android="$NDK_TOOLCHAIN/llvm-ar"
+          export AR_x86_64_linux_android="$NDK_TOOLCHAIN/llvm-ar"
+          export PATH="$NDK_TOOLCHAIN:$PATH"
           cargo build --release -p aegis-ffi --target aarch64-linux-android
           cargo build --release -p aegis-ffi --target x86_64-linux-android
 
@@ -55,16 +61,6 @@ jobs:
           mkdir -p android/app/src/main/jniLibs/x86_64
           cp target/aarch64-linux-android/release/libaegis_ffi.so android/app/src/main/jniLibs/arm64-v8a/
           cp target/x86_64-linux-android/release/libaegis_ffi.so android/app/src/main/jniLibs/x86_64/
-
-      - name: Generate UniFFI Kotlin bindings
-        working-directory: aegis-mesh
-        run: |
-          cargo run --bin uniffi-bindgen-cli -- generate \
-            --library target/aarch64-linux-android/release/libaegis_ffi.so \
-            --language kotlin \
-            --out-dir android/app/src/main/java/network/aegis/mesh/ffi/ || true
-          # If uniffi-bindgen fails, use the hand-written bindings (already in repo)
-          echo "Bindings generated (or hand-written bindings used)"
 
       - name: Build debug APK
         working-directory: aegis-mesh/android
