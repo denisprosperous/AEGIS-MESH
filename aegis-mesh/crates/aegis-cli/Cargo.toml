@@ -1,0 +1,32 @@
+[package]
+name = "aegis-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Command-line interface for AEGIS-MESH"
+
+[[bin]]
+name = "aegis"
+path = "src/main.rs"
+
+[dependencies]
+aegis-core = { workspace = true }
+tokio = { workspace = true }
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+toml = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+directories = { workspace = true }
+futures = { workspace = true }
+tokio-stream = { workspace = true }
+hex = "0.4"
+base64 = "0.22"
+time = { version = "0.3", features = ["formatting", "macros"] }
+rpassword = "7.3"
+
+[dev-dependencies]
+tempfile = "3.10"

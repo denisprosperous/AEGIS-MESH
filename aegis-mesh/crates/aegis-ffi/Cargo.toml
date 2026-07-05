@@ -1,0 +1,23 @@
+[package]
+name = "aegis-ffi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "UniFFI bindings for AEGIS-MESH (Kotlin, Swift, Python)"
+
+[lib]
+name = "aegis_ffi"
+crate-type = ["lib", "staticlib", "cdylib"]
+
+[dependencies]
+aegis-core = { workspace = true }
+uniffi = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+
+[build-dependencies]
+uniffi = { workspace = true, features = ["build"] }
